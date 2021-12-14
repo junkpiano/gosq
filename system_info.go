@@ -74,6 +74,8 @@ type SystemInfo struct {
 		Number_of_Nodes int64  `json:"Number of Nodes"`
 		State           string `json:"State"`
 	} `json:"ElasticSearch"`
+	Health        string        `json:"Health"`
+	Health_Causes []interface{} `json:"Health Causes"`
 	JvmProperties struct {
 		Awt_toolkit                                           string `json:"awt.toolkit"`
 		Catalina_base                                         string `json:"catalina.base"`
@@ -199,11 +201,9 @@ type SystemInfo struct {
 			Language string `json:"language"`
 			Ncloc    int64  `json:"ncloc"`
 		} `json:"nclocByLanguage"`
-		Plugins struct {
-			Findbugs string `json:"findbugs"`
-			Java     string `json:"java"`
-			Scmgit   string `json:"scmgit"`
-			Scmsvn   string `json:"scmsvn"`
+		Plugins []struct {
+			Name    string `json:"name"`
+			Version string `json:"version"`
 		} `json:"plugins"`
 		ProjectCount           int64 `json:"projectCount"`
 		ProjectCountByLanguage []struct {
