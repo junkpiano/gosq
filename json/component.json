@@ -1,0 +1,13 @@
+{
+    "component":{
+       "key":"gosq",
+       "name":"GOSQ",
+       "qualifier":"GOS",
+       "measures":[
+          {
+             "metric":"ncloc",
+             "value":"15000"
+          }
+       ]
+    }
+ }
