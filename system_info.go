@@ -159,6 +159,27 @@ type SystemInfo struct {
 			Version string `json:"Version"`
 		} `json:"scmsvn"`
 	} `json:"Plugins"`
+	Search_State struct {
+		CPU_Usage                             int64  `json:"CPU Usage (%)"`
+		Disk_Available                        string `json:"Disk Available"`
+		Field_Data_Circuit_Breaker_Estimation string `json:"Field Data Circuit Breaker Estimation"`
+		Field_Data_Circuit_Breaker_Limit      string `json:"Field Data Circuit Breaker Limit"`
+		Field_Data_Memory                     string `json:"Field Data Memory"`
+		JVM_Heap_Max                          string `json:"JVM Heap Max"`
+		JVM_Heap_Usage                        string `json:"JVM Heap Usage"`
+		JVM_Heap_Used                         string `json:"JVM Heap Used"`
+		JVM_Non_Heap_Used                     string `json:"JVM Non Heap Used"`
+		JVM_Threads                           int64  `json:"JVM Threads"`
+		Max_File_Descriptors                  int64  `json:"Max File Descriptors"`
+		Open_File_Descriptors                 int64  `json:"Open File Descriptors"`
+		Query_Cache_Memory                    string `json:"Query Cache Memory"`
+		Request_Cache_Memory                  string `json:"Request Cache Memory"`
+		Request_Circuit_Breaker_Estimation    string `json:"Request Circuit Breaker Estimation"`
+		Request_Circuit_Breaker_Limit         string `json:"Request Circuit Breaker Limit"`
+		State                                 string `json:"State"`
+		Store_Size                            string `json:"Store Size"`
+		Translog_Size                         string `json:"Translog Size"`
+	} `json:"Search State"`
 	SonarQube struct {
 		Allow_Users_to_Sign_Up       bool   `json:"Allow Users to Sign Up"`
 		Automatic_User_Creation      bool   `json:"Automatic User Creation"`

@@ -191,6 +191,27 @@
        "Pool Remove Abandoned":false,
        "Pool Remove Abandoned Timeout (seconds)":300
     },
+    "Search State": {
+      "State": "GREEN",
+      "CPU Usage (%)": 0,
+      "Disk Available": "21 GB",
+      "Store Size": "568 MB",
+      "Translog Size": "1 KB",
+      "Open File Descriptors": 210,
+      "Max File Descriptors": 1006500,
+      "JVM Heap Usage": "28.0%",
+      "JVM Heap Used": "142 MB",
+      "JVM Heap Max": "495 MB",
+      "JVM Non Heap Used": "152 MB",
+      "JVM Threads": 36,
+      "Field Data Memory": "810 KB",
+      "Field Data Circuit Breaker Limit": "198 MB",
+      "Field Data Circuit Breaker Estimation": "810 KB",
+      "Request Circuit Breaker Limit": "297 MB",
+      "Request Circuit Breaker Estimation": "0 bytes",
+      "Query Cache Memory": "656 KB",
+      "Request Cache Memory": "16 KB"
+    },
     "Statistics":{
        "id":"AU-TpxcB-iU5OvuD2FL7",
        "version":"5.1",
