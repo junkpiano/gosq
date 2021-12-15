@@ -63,7 +63,7 @@ func (c *Client) Component(component, metricsKeys string, options ...Option) (*C
 
 	params := make(map[string]string)
 	params["component"] = component
-	params["metricsKeys"] = metricsKeys
+	params["metricKeys"] = metricsKeys
 
 	for _, option := range options {
 		option(params)
@@ -97,9 +97,15 @@ func (c *Client) newRequest(method, path string, in map[string]string, out inter
 	c.endpoint.Path = path
 
 	params := url.Values{}
+	q := c.endpoint.Query()
 
 	for k, v := range in {
+		q.Set(k, v)
 		params.Add(k, v)
+	}
+
+	if method == http.MethodGet || method == http.MethodDelete {
+		c.endpoint.RawQuery = q.Encode()
 	}
 
 	req, err := http.NewRequest(method, c.endpoint.String(), strings.NewReader(params.Encode()))
@@ -125,7 +131,6 @@ func (c *Client) newRequest(method, path string, in map[string]string, out inter
 
 func decodeBody(resp *http.Response, out interface{}) error {
 	defer resp.Body.Close()
-
 	decoder := json.NewDecoder(resp.Body)
 	return decoder.Decode(out)
 }

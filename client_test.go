@@ -27,7 +27,7 @@ func TestComponent(t *testing.T) {
 		t.Error(err)
 	}
 
-	_, err = c.Component("test", "ncloc", SetBranch("bugfix/typo"))
+	_, err = c.Component("testproject", "ncloc")
 
 	if err != nil {
 		t.Error(err)
@@ -55,16 +55,16 @@ func TestBranchList(t *testing.T) {
 	testServe := setup()
 	defer testServe.Close()
 
-	c, err := NewClient(testServe.URL, "testtoken", "")
+	c, err := NewClient(testServe.URL, "testtest", "")
 
 	if err != nil {
-		panic(err)
+		t.Error(err)
 	}
 
 	_, err = c.BranchList("testproject")
 
 	if err != nil {
-		panic(err)
+		t.Error(err)
 	}
 }
 
