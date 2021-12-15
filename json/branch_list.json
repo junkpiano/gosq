@@ -1,0 +1,14 @@
+{
+    "branches": [
+        {
+            "name": "bugfix/typo",
+            "isMain": false,
+            "type": "BRANCH",
+            "status": {
+                "qualityGateStatus": "ERROR"
+            },
+            "analysisDate": "2021-12-07T13:57:12+0900",
+            "excludedFromPurge": false
+        }
+    ]
+}

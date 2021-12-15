@@ -58,14 +58,33 @@ func (c *Client) SystemInfo() (*SystemInfo, error) {
 	return &result, nil
 }
 
-func (c *Client) Component(component, metricsKeys string) (*ComponentResponse, error) {
+func (c *Client) Component(component, metricsKeys string, options ...Option) (*ComponentResponse, error) {
 	var as ComponentResponse
 
 	params := make(map[string]string)
 	params["component"] = component
 	params["metricsKeys"] = metricsKeys
 
+	for _, option := range options {
+		option(params)
+	}
+
 	err := c.newRequest(http.MethodGet, "api/measures/component", params, &as)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &as, nil
+}
+
+func (c *Client) BranchList(project string) (*BranchList, error) {
+	var as BranchList
+
+	params := make(map[string]string)
+	params["project"] = project
+
+	err := c.newRequest(http.MethodGet, "api/project_branches/list", params, &as)
 
 	if err != nil {
 		return nil, err
@@ -113,3 +132,4 @@ func decodeBody(resp *http.Response, out interface{}) error {
 
 //go:generate gojson -o component.go -name "ComponentResponse" -pkg "gosq" -input json/component.json
 //go:generate gojson -o system_info.go -name "SystemInfo" -pkg "gosq" -input json/systeminfo.json
+//go:generate gojson -o branch_list.go -name "BranchList" -pkg "gosq" -input json/branch_list.json

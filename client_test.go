@@ -27,7 +27,7 @@ func TestComponent(t *testing.T) {
 		t.Error(err)
 	}
 
-	_, err = c.Component("test", "ncloc")
+	_, err = c.Component("test", "ncloc", SetBranch("bugfix/typo"))
 
 	if err != nil {
 		t.Error(err)
@@ -41,10 +41,27 @@ func TestSystemInfo(t *testing.T) {
 	c, err := NewClient(testServe.URL, "testtoken", "")
 
 	if err != nil {
-		panic(err)
+		t.Error(err)
 	}
 
 	_, err = c.SystemInfo()
+
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestBranchList(t *testing.T) {
+	testServe := setup()
+	defer testServe.Close()
+
+	c, err := NewClient(testServe.URL, "testtoken", "")
+
+	if err != nil {
+		panic(err)
+	}
+
+	_, err = c.BranchList("testproject")
 
 	if err != nil {
 		panic(err)
@@ -55,29 +72,22 @@ func setup() *httptest.Server {
 	muxAPI := http.NewServeMux()
 	testAPIServer := httptest.NewServer(muxAPI)
 
-	muxAPI.HandleFunc("/api/measures/component", func(w http.ResponseWriter, r *http.Request) {
-		f, err := os.Open("json/component.json")
-		if err != nil {
-			// either the file does not exist
-			// or something is seriously wrong with the testing environment
-			fmt.Fprintf(w, "error: %s", err)
-		}
-		defer f.Close()
+	listOfAPIs := make(map[string]string)
+	listOfAPIs["/api/measures/component"] = "json/component.json"
+	listOfAPIs["/api/system/info"] = "json/systeminfo.json"
+	listOfAPIs["/api/project_branches/list"] = "json/branch_list.json"
 
-		io.Copy(w, f)
-	})
+	for k, v := range listOfAPIs {
+		muxAPI.HandleFunc(k, func(w http.ResponseWriter, r *http.Request) {
+			f, err := os.Open(v)
+			if err != nil {
+				fmt.Fprintf(w, "error: %s", err)
+			}
+			defer f.Close()
 
-	muxAPI.HandleFunc("/api/system/info", func(w http.ResponseWriter, r *http.Request) {
-		f, err := os.Open("json/systeminfo.json")
-		if err != nil {
-			// either the file does not exist
-			// or something is seriously wrong with the testing environment
-			fmt.Fprintf(w, "error: %s", err)
-		}
-		defer f.Close()
-
-		io.Copy(w, f)
-	})
+			io.Copy(w, f)
+		})
+	}
 
 	return testAPIServer
 }
