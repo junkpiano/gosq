@@ -93,6 +93,20 @@ func (c *Client) BranchList(project string) (*BranchList, error) {
 	return &as, nil
 }
 
+func (c *Client) Projects() (*Projects, error) {
+	var as Projects
+
+	params := make(map[string]string)
+
+	err := c.newRequest(http.MethodGet, "api/projects/search", params, &as)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &as, nil
+}
+
 func (c *Client) newRequest(method, path string, in map[string]string, out interface{}) error {
 	c.endpoint.Path = path
 
@@ -138,3 +152,4 @@ func decodeBody(resp *http.Response, out interface{}) error {
 //go:generate gojson -o component.go -name "ComponentResponse" -pkg "gosq" -input json/component.json
 //go:generate gojson -o system_info.go -name "SystemInfo" -pkg "gosq" -input json/systeminfo.json
 //go:generate gojson -o branch_list.go -name "BranchList" -pkg "gosq" -input json/branch_list.json
+//go:generate gojson -o projects.go -name "Projects" -pkg "gosq" -input json/projects.json
