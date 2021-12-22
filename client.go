@@ -107,6 +107,20 @@ func (c *Client) Projects() (*Projects, error) {
 	return &as, nil
 }
 
+func (c *Client) AlmSettings() (*AlmSettings, error) {
+	var as AlmSettings
+
+	params := make(map[string]string)
+
+	err := c.Request(http.MethodGet, "api/alm_settings/list", params, &as)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &as, nil
+}
+
 func (c *Client) Request(method, path string, in map[string]string, out interface{}) error {
 	c.endpoint.Path = path
 

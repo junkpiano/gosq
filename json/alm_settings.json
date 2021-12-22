@@ -1,0 +1,14 @@
+{
+    "almSettings":[
+       {
+          "key":"bitbucket",
+          "alm":"bitbucket",
+          "url":"https://bitbucket.org"
+       },
+       {
+          "key":"github",
+          "alm":"github",
+          "url":"https://github.com"
+       }
+    ]
+ }

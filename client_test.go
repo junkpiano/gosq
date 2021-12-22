@@ -85,6 +85,23 @@ func TestProjects(t *testing.T) {
 	}
 }
 
+func TestAlmSettings(t *testing.T) {
+	testServe := setup()
+	defer testServe.Close()
+
+	c, err := NewClient(testServe.URL, "testtest", "")
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	_, err = c.AlmSettings()
+
+	if err != nil {
+		t.Error(err)
+	}
+}
+
 func setup() *httptest.Server {
 	muxAPI := http.NewServeMux()
 	testAPIServer := httptest.NewServer(muxAPI)
@@ -94,6 +111,7 @@ func setup() *httptest.Server {
 	listOfAPIs["/api/system/info"] = "json/systeminfo.json"
 	listOfAPIs["/api/project_branches/list"] = "json/branch_list.json"
 	listOfAPIs["/api/projects/search"] = "json/projects.json"
+	listOfAPIs["/api/alm_settings/list"] = "json/alm_settings.json"
 
 	for k, v := range listOfAPIs {
 		muxAPI.HandleFunc(k, func(w http.ResponseWriter, r *http.Request) {
