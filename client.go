@@ -37,7 +37,7 @@ func NewClient(endpoint, username, password string) (*Client, error) {
 func (c *Client) ActivityStatus() (*ActivityStatus, error) {
 	var as ActivityStatus
 
-	err := c.newRequest(http.MethodGet, "api/ce/activity_status", nil, &as)
+	err := c.Request(http.MethodGet, "api/ce/activity_status", nil, &as)
 
 	if err != nil {
 		return nil, err
@@ -49,7 +49,7 @@ func (c *Client) ActivityStatus() (*ActivityStatus, error) {
 func (c *Client) SystemInfo() (*SystemInfo, error) {
 	var result SystemInfo
 
-	err := c.newRequest(http.MethodGet, "api/system/info", nil, &result)
+	err := c.Request(http.MethodGet, "api/system/info", nil, &result)
 
 	if err != nil {
 		return nil, err
@@ -69,7 +69,7 @@ func (c *Client) Component(component, metricsKeys string, options ...Option) (*C
 		option(params)
 	}
 
-	err := c.newRequest(http.MethodGet, "api/measures/component", params, &as)
+	err := c.Request(http.MethodGet, "api/measures/component", params, &as)
 
 	if err != nil {
 		return nil, err
@@ -84,7 +84,7 @@ func (c *Client) BranchList(project string) (*BranchList, error) {
 	params := make(map[string]string)
 	params["project"] = project
 
-	err := c.newRequest(http.MethodGet, "api/project_branches/list", params, &as)
+	err := c.Request(http.MethodGet, "api/project_branches/list", params, &as)
 
 	if err != nil {
 		return nil, err
@@ -98,7 +98,7 @@ func (c *Client) Projects() (*Projects, error) {
 
 	params := make(map[string]string)
 
-	err := c.newRequest(http.MethodGet, "api/projects/search", params, &as)
+	err := c.Request(http.MethodGet, "api/projects/search", params, &as)
 
 	if err != nil {
 		return nil, err
@@ -107,7 +107,7 @@ func (c *Client) Projects() (*Projects, error) {
 	return &as, nil
 }
 
-func (c *Client) newRequest(method, path string, in map[string]string, out interface{}) error {
+func (c *Client) Request(method, path string, in map[string]string, out interface{}) error {
 	c.endpoint.Path = path
 
 	params := url.Values{}
@@ -148,8 +148,3 @@ func decodeBody(resp *http.Response, out interface{}) error {
 	decoder := json.NewDecoder(resp.Body)
 	return decoder.Decode(out)
 }
-
-//go:generate gojson -o component.go -name "ComponentResponse" -pkg "gosq" -input json/component.json
-//go:generate gojson -o system_info.go -name "SystemInfo" -pkg "gosq" -input json/systeminfo.json
-//go:generate gojson -o branch_list.go -name "BranchList" -pkg "gosq" -input json/branch_list.json
-//go:generate gojson -o projects.go -name "Projects" -pkg "gosq" -input json/projects.json
